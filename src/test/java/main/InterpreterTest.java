@@ -5,7 +5,6 @@ import static main.Interpreter.interpret;
 import static main.Interpreter.solveAddSub;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.fail;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,11 +12,6 @@ import java.util.List;
 import org.junit.Test;
 
 public class InterpreterTest {
-
-	@Test
-	public void testFail() {
-		fail();
-	}
 
 	@Test
 	public void testCalculate() {
