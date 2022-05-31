@@ -5,12 +5,14 @@ import static main.Interpreter.OPERATION_REGEX;
 import java.util.ArrayList;
 import java.util.List;
 
+import interfaces.IInterpreter;
+
 public class Controller {
 
 	private List<String> inputs;
-	private Interpreter interpreter;
+	private IInterpreter interpreter;
 
-	public Controller(Interpreter interpreter) {
+	public Controller(IInterpreter interpreter) {
 		inputs = new ArrayList<>();
 		this.interpreter = interpreter;
 	}

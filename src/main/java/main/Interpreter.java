@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class Interpreter {
+import interfaces.IInterpreter;
+
+public class Interpreter implements IInterpreter {
 
 	// public Strings
 	public static final String NUMBER_REGEX = "(\\-)?[0-9]+((\\.){1}[0-9]+)?";
@@ -22,6 +24,7 @@ public class Interpreter {
 	public static final Predicate<String> IS_OPERATION = val -> val.matches(OPERATION_REGEX);
 	public static final Predicate<String> IS_NUMBER = val -> val.matches(NUMBER_REGEX);
 
+	@Override
 	public List<String> interpret(List<String> input) {
 		if (!validateSyntax(getText(input))) {
 			return Arrays.asList(INVALID_INPUT);
@@ -39,7 +42,7 @@ public class Interpreter {
 		return solveAddSub(equationWithSolvedMulDiv);
 	}
 
-	public double calculate(String input, double d1, double d2) {
+	double calculate(String input, double d1, double d2) {
 		if (input.contains("+")) {
 			return d1 + d2;
 		}
@@ -57,7 +60,7 @@ public class Interpreter {
 		throw new IllegalArgumentException();
 	}
 
-	public List<String> solveAddSub(List<String> input) {
+	List<String> solveAddSub(List<String> input) {
 		List<Double> numbers = extractNumbers(input);
 		List<String> operations = extractOperations(input);
 		double result = numbers.get(0);
@@ -80,7 +83,7 @@ public class Interpreter {
 				.collect(Collectors.toList());
 	}
 
-	public List<String> solveMulDiv(List<String> input) {
+	List<String> solveMulDiv(List<String> input) {
 		List<String> solved = new ArrayList<>(input);
 		for (int i = 0; i < solved.size(); i++) {
 			if (solved.get(i).matches(MUL_DIV_REGEX)) {
@@ -95,10 +98,11 @@ public class Interpreter {
 		return Collections.unmodifiableList(solved);
 	}
 
-	public boolean validateSyntax(String input) {
+	boolean validateSyntax(String input) {
 		return input.matches(NUMBER_REGEX + "(" + OPERATION_REGEX + "{1}" + NUMBER_REGEX + ")*");
 	}
 
+	@Override
 	public String getText(List<String> inputs) {
 		return inputs.stream().reduce("", (acc, val) -> acc += val);
 	}
