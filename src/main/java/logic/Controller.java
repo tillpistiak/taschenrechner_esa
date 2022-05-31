@@ -37,14 +37,13 @@ public class Controller implements IController {
 	@Override
 	public String clear() {
 		inputs.clear();
-		;
 		return getText();
 	}
 
 	@Override
 	public String solve() {
 		List<String> result = interpreter.interpret(inputs);
-		inputs.clear();
+		clear();
 		inputs.addAll(result);
 		return getText();
 	}

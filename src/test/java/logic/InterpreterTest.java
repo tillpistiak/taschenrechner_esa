@@ -8,8 +8,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import logic.Interpreter;
-
 public class InterpreterTest {
 
 	private Interpreter interpreter = new Interpreter();
