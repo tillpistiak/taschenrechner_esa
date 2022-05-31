@@ -25,6 +25,9 @@ public class App extends Application {
 	private TextField tf;
 	private Controller controller = new Controller();
 
+	/**
+	 * JavaFX start method
+	 */
 	@Override
 	public void start(Stage stage) throws IOException {
 		Scene scene = new Scene(getView(), SCENE_WIDTH, SCENE_HEIGTH);
