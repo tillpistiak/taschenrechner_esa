@@ -2,6 +2,7 @@ package main;
 
 import java.io.IOException;
 
+import interfaces.IController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,6 +11,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import logic.Controller;
+import logic.Interpreter;
 
 /**
  * JavaFX App
@@ -23,7 +26,7 @@ public class App extends Application {
 	private static final double ROW_COUNT = 4;
 	private static final double COLUMN_COUNT = 4;
 	private TextField tf;
-	private Controller controller = new Controller(new Interpreter());
+	private IController controller = new Controller(new Interpreter());
 
 	/**
 	 * JavaFX start method

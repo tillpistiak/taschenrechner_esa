@@ -1,13 +1,14 @@
-package main;
+package logic;
 
-import static main.Interpreter.OPERATION_REGEX;
+import static logic.Interpreter.OPERATION_REGEX;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import interfaces.IController;
 import interfaces.IInterpreter;
 
-public class Controller {
+public class Controller implements IController {
 
 	private List<String> inputs;
 	private IInterpreter interpreter;
@@ -17,6 +18,7 @@ public class Controller {
 		this.interpreter = interpreter;
 	}
 
+	@Override
 	public String addValue(String value) {
 		if (value.matches(OPERATION_REGEX)) {
 			addOperation(value);
@@ -26,17 +28,20 @@ public class Controller {
 		return getText();
 	}
 
+	@Override
 	public String delete() {
 		inputs.remove(inputs.size() - 1);
 		return getText();
 	}
 
+	@Override
 	public String clear() {
 		inputs.clear();
 		;
 		return getText();
 	}
 
+	@Override
 	public String solve() {
 		List<String> result = interpreter.interpret(inputs);
 		inputs.clear();
@@ -70,6 +75,7 @@ public class Controller {
 		}
 	}
 
+	@Override
 	public String getText() {
 		return interpreter.getText(inputs);
 	}
