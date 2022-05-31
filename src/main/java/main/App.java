@@ -23,7 +23,7 @@ public class App extends Application {
 	private static final double ROW_COUNT = 4;
 	private static final double COLUMN_COUNT = 4;
 	private TextField tf;
-	private Controller controller = new Controller();
+	private Controller controller = new Controller(new Interpreter());
 
 	/**
 	 * JavaFX start method

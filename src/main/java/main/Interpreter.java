@@ -22,14 +22,14 @@ public class Interpreter {
 	public static final Predicate<String> IS_OPERATION = val -> val.matches(OPERATION_REGEX);
 	public static final Predicate<String> IS_NUMBER = val -> val.matches(NUMBER_REGEX);
 
-	public static List<String> interpret(List<String> input) {
+	public List<String> interpret(List<String> input) {
 		if (!validateSyntax(getText(input))) {
 			return Arrays.asList(INVALID_INPUT);
 		}
 		return solveEquation(Collections.unmodifiableList(input));
 	}
 
-	private static List<String> solveEquation(List<String> input) {
+	private List<String> solveEquation(List<String> input) {
 		List<String> equationWithSolvedMulDiv = solveMulDiv(input);
 
 		if (equationWithSolvedMulDiv.contains(NOT_A_NUMBER)) {
@@ -39,7 +39,7 @@ public class Interpreter {
 		return solveAddSub(equationWithSolvedMulDiv);
 	}
 
-	public static double calculate(String input, double d1, double d2) {
+	public double calculate(String input, double d1, double d2) {
 		if (input.contains("+")) {
 			return d1 + d2;
 		}
@@ -57,7 +57,7 @@ public class Interpreter {
 		throw new IllegalArgumentException();
 	}
 
-	public static List<String> solveAddSub(List<String> input) {
+	public List<String> solveAddSub(List<String> input) {
 		List<Double> numbers = extractNumbers(input);
 		List<String> operations = extractOperations(input);
 		double result = numbers.get(0);
@@ -67,20 +67,20 @@ public class Interpreter {
 		return Arrays.asList(result + "");
 	}
 
-	private static List<String> extractOperations(List<String> input) {
+	private List<String> extractOperations(List<String> input) {
 		return input.stream()
 				.filter(IS_OPERATION)
 				.collect(Collectors.toList());
 	}
 
-	private static List<Double> extractNumbers(List<String> input) {
+	private List<Double> extractNumbers(List<String> input) {
 		return input.stream()
 				.filter(IS_NUMBER)
 				.map(Double::parseDouble)
 				.collect(Collectors.toList());
 	}
 
-	public static List<String> solveMulDiv(List<String> input) {
+	public List<String> solveMulDiv(List<String> input) {
 		List<String> solved = new ArrayList<>(input);
 		for (int i = 0; i < solved.size(); i++) {
 			if (solved.get(i).matches(MUL_DIV_REGEX)) {
@@ -95,11 +95,11 @@ public class Interpreter {
 		return Collections.unmodifiableList(solved);
 	}
 
-	public static boolean validateSyntax(String input) {
+	public boolean validateSyntax(String input) {
 		return input.matches(NUMBER_REGEX + "(" + OPERATION_REGEX + "{1}" + NUMBER_REGEX + ")*");
 	}
 
-	public static String getText(List<String> inputs) {
+	public String getText(List<String> inputs) {
 		return inputs.stream().reduce("", (acc, val) -> acc += val);
 	}
 }

@@ -1,14 +1,19 @@
 package main;
 
 import static main.Interpreter.OPERATION_REGEX;
-import static main.Interpreter.interpret;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
 
-	private List<String> inputs = new ArrayList<>();
+	private List<String> inputs;
+	private Interpreter interpreter;
+
+	public Controller(Interpreter interpreter) {
+		inputs = new ArrayList<>();
+		this.interpreter = interpreter;
+	}
 
 	public String addValue(String value) {
 		if (value.matches(OPERATION_REGEX)) {
@@ -31,7 +36,7 @@ public class Controller {
 	}
 
 	public String solve() {
-		List<String> result = interpret(inputs);
+		List<String> result = interpreter.interpret(inputs);
 		inputs.clear();
 		inputs.addAll(result);
 		return getText();
@@ -64,6 +69,6 @@ public class Controller {
 	}
 
 	public String getText() {
-		return Interpreter.getText(inputs);
+		return interpreter.getText(inputs);
 	}
 }
