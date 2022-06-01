@@ -8,4 +8,6 @@ public interface IInterpreter {
 
 	public String getText(List<String> inputs);
 
+	boolean isOperation(String input);
+
 }

@@ -1,7 +1,5 @@
 package logic;
 
-import static logic.Interpreter.OPERATION_REGEX;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +18,7 @@ public class Controller implements IController {
 
 	@Override
 	public String addValue(String value) {
-		if (value.matches(OPERATION_REGEX)) {
+		if (interpreter.isOperation(value)) {
 			addOperation(value);
 		} else {
 			addNumericValue(value);
@@ -30,52 +28,58 @@ public class Controller implements IController {
 
 	@Override
 	public String delete() {
-		inputs.remove(inputs.size() - 1);
+		getInputs().remove(getInputs().size() - 1);
 		return getText();
 	}
 
 	@Override
 	public String clear() {
-		inputs.clear();
+		getInputs().clear();
 		return getText();
 	}
 
 	@Override
 	public String solve() {
-		List<String> result = interpreter.interpret(inputs);
+		List<String> result = interpreter.interpret(getInputs());
 		clear();
-		inputs.addAll(result);
+		getInputs().addAll(result);
 		return getText();
 	}
 
-	private void addNumericValue(String value) {
-		int lastIndex = inputs.size() - 1;
-		if (inputs.isEmpty()) {
-			inputs.add(value);
-		} else if (inputs.get(lastIndex).matches(OPERATION_REGEX)
-				&& (inputs.size() != 1 && !inputs.get(lastIndex - 1).matches(OPERATION_REGEX))) {
-			inputs.add(value);
+	void addNumericValue(String value) {
+		int lastIndex = getInputs().size() - 1;
+		if (getInputs().isEmpty()) {
+			getInputs().add(value);
+		} else if (interpreter.isOperation(getInputs().get(lastIndex))
+				&& (getInputs().size() != 1 && !interpreter.isOperation(getInputs().get(lastIndex - 1)))) {
+			getInputs().add(value);
 		} else {
-			inputs.set(lastIndex, inputs.get(lastIndex) + value);
+			getInputs().set(lastIndex, getInputs().get(lastIndex) + value);
 		}
 
 	}
 
-	private void addOperation(String value) {
-		int lastIndex = inputs.size() - 1;
-		if (inputs.isEmpty() && value.matches("\\-")) {
-			inputs.add(value);
-		} else if (!inputs.isEmpty()
-				&& (!inputs.get(lastIndex).matches(OPERATION_REGEX))) {
-			inputs.add(value);
-		} else if (inputs.size() >= 2 && value.matches("\\-") && inputs.get(lastIndex).matches(OPERATION_REGEX)
-				&& !inputs.get(lastIndex - 1).matches(OPERATION_REGEX)) {
-			inputs.add(value);
+	void addOperation(String value) {
+		int lastIndex = getInputs().size() - 1;
+		if (getInputs().isEmpty() && value.matches("\\-")) {
+			getInputs().add(value);
+		} else if (!getInputs().isEmpty()
+				&& (!interpreter.isOperation(getInputs().get(lastIndex)))) {
+			getInputs().add(value);
+		} else if (getInputs().size() >= 2 && value.matches("\\-")
+				&& interpreter.isOperation(getInputs().get(lastIndex))
+				&& !interpreter.isOperation(getInputs().get(lastIndex - 1))) {
+			getInputs().add(value);
 		}
 	}
 
 	@Override
 	public String getText() {
-		return interpreter.getText(inputs);
+		return interpreter.getText(getInputs());
 	}
+
+	List<String> getInputs() {
+		return inputs;
+	}
+
 }

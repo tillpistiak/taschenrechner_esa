@@ -106,4 +106,9 @@ public class Interpreter implements IInterpreter {
 	public String getText(List<String> inputs) {
 		return inputs.stream().reduce("", (acc, val) -> acc += val);
 	}
+
+	@Override
+	public boolean isOperation(String input) {
+		return IS_OPERATION.test(input);
+	}
 }
