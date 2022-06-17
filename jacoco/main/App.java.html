@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>App.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">taschenrechner</a> &gt; <a href="index.source.html" class="el_package">main</a> &gt; <span class="el_source">App.java</span></div><h1>App.java</h1><pre class="source lang-java linenums">package main;
+
+import java.io.IOException;
+
+import interfaces.IController;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import logic.Controller;
+import logic.Interpreter;
+
+/**
+ * JavaFX App
+ */
+<span class="nc" id="L20">public class App extends Application {</span>
+
+	private static final String DELETE = &quot;\u232B&quot;;
+	private static final String TITLE = &quot;Calculator&quot;;
+	private static final double SCENE_WIDTH = 400;
+	private static final double SCENE_HEIGTH = 400;
+	private static final double ROW_COUNT = 4;
+	private static final double COLUMN_COUNT = 4;
+	private TextField tf;
+<span class="nc" id="L29">	private IController controller = new Controller(new Interpreter());</span>
+
+	/**
+	 * JavaFX start method
+	 */
+	@Override
+	public void start(Stage stage) throws IOException {
+<span class="nc" id="L36">		Scene scene = new Scene(getView(), SCENE_WIDTH, SCENE_HEIGTH);</span>
+<span class="nc" id="L37">		stage.setTitle(TITLE);</span>
+<span class="nc" id="L38">		stage.setScene(scene);</span>
+<span class="nc" id="L39">		stage.show();</span>
+<span class="nc" id="L40">	}</span>
+
+	public static void main(String[] args) {
+<span class="nc" id="L43">		launch();</span>
+<span class="nc" id="L44">	}</span>
+
+	private Pane getView() {
+<span class="nc" id="L47">		VBox vbox = new VBox();</span>
+<span class="nc" id="L48">		tf = new TextField();</span>
+<span class="nc" id="L49">		tf.setDisable(true);</span>
+<span class="nc" id="L50">		vbox.getChildren().add(tf);</span>
+<span class="nc" id="L51">		vbox.getChildren().add(getGrid());</span>
+<span class="nc" id="L52">		return vbox;</span>
+	}
+
+	private Pane getGrid() {
+<span class="nc" id="L56">		GridPane grid = new GridPane();</span>
+<span class="nc" id="L57">		grid.addRow(0, getButton(&quot;+&quot;), getButton(&quot;-&quot;), getButton(&quot;*&quot;), getButton(&quot;/&quot;));</span>
+<span class="nc" id="L58">		grid.addRow(1, getButton(&quot;7&quot;), getButton(&quot;8&quot;), getButton(&quot;9&quot;), getSolveButton(&quot;=&quot;));</span>
+<span class="nc" id="L59">		grid.addRow(2, getButton(&quot;4&quot;), getButton(&quot;5&quot;), getButton(&quot;6&quot;), getDeleteClearButtons());</span>
+<span class="nc" id="L60">		grid.addRow(3, getButton(&quot;1&quot;), getButton(&quot;2&quot;), getButton(&quot;3&quot;), getButton(&quot;0&quot;));</span>
+<span class="nc" id="L61">		return grid;</span>
+	}
+
+	private Button getButton(String text) {
+<span class="nc" id="L65">		Button b = getDefaultButton(text);</span>
+<span class="nc" id="L66">		b.setOnAction(e -&gt; {</span>
+<span class="nc" id="L67">			tf.setText(controller.addValue(text));</span>
+<span class="nc" id="L68">		});</span>
+<span class="nc" id="L69">		return b;</span>
+	}
+
+	private Button getDefaultButton(String text) {
+<span class="nc" id="L73">		Button b = new Button(text);</span>
+<span class="nc" id="L74">		b.setPrefSize(SCENE_WIDTH / COLUMN_COUNT, SCENE_HEIGTH / ROW_COUNT);</span>
+<span class="nc" id="L75">		return b;</span>
+	}
+
+	private VBox getDeleteClearButtons() {
+<span class="nc" id="L79">		Button delete = new Button(DELETE);</span>
+<span class="nc" id="L80">		delete.setPrefSize(SCENE_WIDTH / COLUMN_COUNT, SCENE_HEIGTH / ROW_COUNT / 2);</span>
+<span class="nc" id="L81">		delete.setOnAction(e -&gt; {</span>
+<span class="nc" id="L82">			tf.setText(controller.delete());</span>
+<span class="nc" id="L83">		});</span>
+<span class="nc" id="L84">		Button clear = new Button(&quot;Clear&quot;);</span>
+<span class="nc" id="L85">		clear.setPrefSize(SCENE_WIDTH / COLUMN_COUNT, SCENE_HEIGTH / ROW_COUNT / 2);</span>
+<span class="nc" id="L86">		clear.setOnAction(e -&gt; {</span>
+<span class="nc" id="L87">			tf.setText(controller.clear());</span>
+<span class="nc" id="L88">		});</span>
+
+<span class="nc" id="L90">		VBox buttons = new VBox(delete, clear);</span>
+<span class="nc" id="L91">		return buttons;</span>
+	}
+
+	private Button getSolveButton(String text) {
+<span class="nc" id="L95">		Button b = getDefaultButton(text);</span>
+<span class="nc" id="L96">		b.setOnAction(e -&gt; {</span>
+<span class="nc" id="L97">			tf.setText(controller.solve());</span>
+<span class="nc" id="L98">		});</span>
+<span class="nc" id="L99">		return b;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
