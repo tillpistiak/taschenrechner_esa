@@ -7,4 +7,5 @@
 <suppressions>
   <suppress checks="Javadoc" files="."/>
   <suppress checks="FileTabCharacter" files="."/>
+  <suppress checks="DesignForExtension" files="."/>
 </suppressions>
