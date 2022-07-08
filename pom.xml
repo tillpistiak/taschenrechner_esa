@@ -93,7 +93,10 @@
 						<configuration>
 							<rules>
 								<rule>
-									<element>PACKAGE</element>
+									<element>CLASS</element>
+									<excludes>
+										<exclude>main.App</exclude>
+									</excludes>
 									<limits>
 										<limit>
 											<counter>LINE</counter>
