@@ -23,7 +23,7 @@ under the License.
     <link>${project.url}</link>
     <description>taschenrechner - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2022</copyright>
+    <copyright>&#169;2023</copyright>
     <item>
       <title>File: 5,
              Errors: 52,
