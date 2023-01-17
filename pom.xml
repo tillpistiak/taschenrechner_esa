@@ -15,7 +15,7 @@
 
 	<repositories>
 		<repository>
-			<id>github-snapshots</id>
+			<id>github</id>
 			<name>Github Snapshot Packages</name>
 			<url>https://maven.pkg.github.com/tillpistiak/snapshots</url>
 			<snapshots>
@@ -25,7 +25,7 @@
 	</repositories>
 	<distributionManagement>
 		<repository>
-			<id>github-snapshots</id>
+			<id>github</id>
 			<name>Github Snapshot Packages</name>
 			<url>https://maven.pkg.github.com/tillpistiak/snapshots</url>
 		</repository>
